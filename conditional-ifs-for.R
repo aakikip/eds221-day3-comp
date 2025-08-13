@@ -211,4 +211,41 @@ for (i in seq_along(tigers)) {
   big_cats[i] <- tigers[i] + lions[i]
 }
 
+#for loops to iterate across columns of data frame
+
+#mean_val <- mean(mtcars[1]) single brackets give us a dataframe
+
+mean_mtcars <- vector(mode = "numeric", length = ncol(mtcars))
+
+for (i in 1:ncol(mtcars)) {
+  mean_val <- mean(mtcars[[i]], na.rm = TRUE) #double bracket gives the value
+  mean_mtcars[[i]] <- mean_val
+}
+
+library(palmerpenguins)
+
+penguin_median <- median(penguins[[3]], na.rm = TRUE)
+
+for (i in 1:ncol(penguins)) {
+  if (is.numeric(penguins[[i]])) {
+    penguin_median <- median(penguins[[i]], na.rm = TRUE)
+    print(penguin_median)
+  } else {
+    print("data not numeric")
+  }
+}
+   
+#functional programming
+
+#apply() function iterates over columns or rows
+
+#rewrite our for lopp for finding mean values of the columns in mtcars
+apply(X = mtcars, MARGIN = 2, FUN = mean)
+#same as saying apply the function mean across the columns in mtcars
+
+library(tidyverse)
+
+penguins %>%
+  group_by(species) %>%
+  summarise(across(where(is.numeric), mean, na.rm = TRUE))
 
